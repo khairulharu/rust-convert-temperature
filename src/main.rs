@@ -1,28 +1,66 @@
+use std::io;
+
 fn main() {
 
-    let actual_temperature = 77;
-    let temperature_on_fahrenheit: i32;
-    let temperature_on_celcius: i32;
+    println!("This convert temperature to celcius or fahrenheit");
+    println!("===================================================");
+    println!("Please enter FTOC or CTOF");
+    println!("FTOC: mean fahrenheit to celcius, CTOF mean celcius to fahrenhit");
 
-    if actual_temperature >= 0 && actual_temperature <= 100 {
+    let mut picker = String::new();
 
-       temperature_on_celcius = actual_temperature;
-       temperature_on_fahrenheit =  calculate_celcius_to_fahrenheit(temperature_on_celcius);
+    io::stdin()
+        .read_line(&mut picker)
+        .expect("Failed to read line");
 
-       println!("temperature on fahrenheit is: {}^F and celcius is: {}^C", temperature_on_fahrenheit, temperature_on_celcius);
-    } else if actual_temperature >= 32 && actual_temperature <= 212 {
+    let picker: String = picker.trim().parse().expect("Please input the choice FTOC or CTOF");
 
-        temperature_on_fahrenheit =  actual_temperature;
-        temperature_on_celcius = calculate_fahrenheit_to_celcius(actual_temperature);
+    if picker == "FTOC" {
+        let mut fahrenheit_temperature = String::new();
+        println!("===================================================");
+        println!("Please input temperature on fahrenheit");
 
-        println!("temperature on fahrenheit is: {}^F and celcius is: {}^C", temperature_on_fahrenheit, temperature_on_celcius);
-    } else {
-        println!("Out of Bound temperature please input jus actual celcius or fahrenheit");
+        io::stdin()
+            .read_line(&mut fahrenheit_temperature)
+            .expect("Failed to read line");
+
+        let fahrenheit_temperature: i32 = fahrenheit_temperature.trim().parse().expect("please input the number");  
+
+        let result_caculation_on_celcius: i32;     
+
+        if fahrenheit_temperature >= 32 && fahrenheit_temperature <= 212 {
+            result_caculation_on_celcius = calculate_fahrenheit_to_celcius(fahrenheit_temperature);
+
+            println!("Result: {fahrenheit_temperature}°F To {result_caculation_on_celcius}°C");
+        } else {
+            println!("Please input the number on just nominal of the fahrenheit temperature");
+        }        
+    }
+
+    if picker == "CTOF" {
+        let mut celcius_temperature = String::new();
+        println!("===================================================");
+        println!("Please input temperature on celcius");
+
+        io::stdin()
+            .read_line(&mut celcius_temperature)
+            .expect("Failed to read line");
+
+        let celcius_temperature: i32 =  celcius_temperature.trim().parse().expect("please input the number");
+
+        let result_caculation_on_fahrenheit: i32;   
+
+        if celcius_temperature >= 0 && celcius_temperature <= 100 {
+            result_caculation_on_fahrenheit = calculate_celcius_to_fahrenheit(celcius_temperature);
+            println!("Result: {celcius_temperature}°C To {result_caculation_on_fahrenheit}°C");
+        } else {
+            println!("Please input the number on just nominal of the celcius temperature");
+        }
     }
 }
 
 fn calculate_fahrenheit_to_celcius(temperature_fahrenheit: i32) -> i32 {
-    let celcius: i32 = (temperature_fahrenheit - 32)*(5/9);
+    let celcius: i32 = (temperature_fahrenheit - 32)*5/9;
     return celcius;
 }
 fn calculate_celcius_to_fahrenheit(temperatur_celcius: i32) -> i32 {
